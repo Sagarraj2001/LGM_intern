@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To-Do List</title>
+    
+    <!-- applied css -->
+    <style>        
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100%;
+    background:aqua;
+}
+.container{
+    width: 40%;
+    min-width: 450px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    background: white;
+    min-height: 100px;
+    border-radius: 10px;
+}
+
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+form input[type="text"] {
+  width: 70%;
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+form button[type="button"] {
+  padding: 10px 20px;
+  background-color:aqua;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+ul {
+  margin: 15px;
+  list-style-type: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  background-color: #f9f9f9;
+  align-items: center;
+  padding: 5px;
+  margin: 25px;
+  border-radius: 5px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+      <form>
+        <input type="text" id="todo-item" placeholder="Add your task........">
+        <button type="button" id="add-btn" onclick="addItem()">Add</button>
+      </form>
+      <ul id="todo-list"></ul>
+    </div>
+<!-- apllied javascript -->
+    <script>
+       let todoList = [];
+
+function addItem() {
+  const input = document.getElementById("todo-item");
+  const itemText = input.value.trim();
+
+  if (itemText !== "") {
+    const newItem = { text: itemText, completed: false };
+    todoList.push(newItem);
+    input.value = "";
+    displayList();
+  }
+  else{
+    alert("please enter your task");
+  }
+}
+
+function removeItem(index) {
+  todoList.splice(index, 1);
+  displayList();
+}
+
+function toggleCompleted(index) {
+  todoList[index].completed = !todoList[index].completed;
+  displayList();
+}
+
+function displayList() {
+  const list = document.getElementById("todo-list");
+  list.innerHTML = "";
+
+  for (let i = 0; i < todoList.length; i++) {
+    const item = todoList[i];
+    const li = document.createElement("li");
+    li.textContent = item.text;
+    li.addEventListener("click", () => toggleCompleted(i));
+
+    if (item.completed) {
+      li.classList.add("completed");
+    }
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", () => removeItem(i));
+
+    li.appendChild(removeBtn);
+    list.appendChild(li);
+  }
+}
+ 
+    </script>
+  </body>
+</html>
